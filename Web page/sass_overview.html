@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обзор Sass</title>
+    <link rel="stylesheet" href="style.css">
+	<script src="tobegining.js"></script>
+	<script src="toggle.js"></script>
+  </head>
+  <body>
+    <nav>
+	  <ul id="navigation" class="nav">
+	    <li><a href="#">Главная</a></li>
+		<li><a href="#">Страница1</a></li>
+		<li><a href="#">Страница2</a></li>
+		<li class="icon"><a href="#" onclick="toggle()">&#9776;</a></li>
+	  </ul>
+    </nav>
+    <div id="title">
+      <h1>Обзор Sass</h1>
+    </div>
+    <div class="flex-container">
+      <article>
+        <section>
+          <h2 id="introduction">Введение</h2>
+	      <p>SASS - это препроцессор, который позволяет использовать функции 
+	      недоступные в самом CSS, например, переменные, вложенности, миксины, 
+	      наследование и т.д. Язык SASS имеет два синтаксиса:</p>
+  	      <ol>
+	        <li>SASS (Syntactically Awesome Style Sheets) - отличается 
+	        отсутствием фигурных скобок, в нём вложенные элементы реализованы
+	        с помощью отступов;</li>
+  	        <li>SCSS (Sassy CSS) - использует фигурные скобки, как и сам CSS.</li>
+	      </ol>
+	      <p>Согласно <a href="https://sass-lang.com/install" title="sass-lang.com">
+		  официальному сайту</a> существует несколько способов установки SASS - 
+		  посредством приложения (CodeKit, Hammer, Prepros и т.д.), библиотек, либо 
+		  командной строки с использованием менеджера пакетов npm, входящего в 
+		  <a href="https://nodejs.org/en/" title="nodejs.org">Node.js</a>, при
+		  выполнении команды:</p>
+	      <div class="code-section">
+	        <code>npm install -g sass</code>
+	      </div>
+	      <p>При этом браузер не воспринимает код SASS. Поэтому и требуется препроцессор
+		  для преобразования кода SASS в стандартный CSS. Этот процесс называется 
+		  транспилированием. Можно использовать программу 
+		  <a href="http://koala-app.com/index.html" title="koala-app.com">Koala</a>, 
+		  которая позволяет быстро и легко компилировать SASS, используя графический 
+		  интерфейс:</p>
+		  <figure>
+		    <img src="koala_screen.png" alt="">
+			<figcaption>Рис.1 - Настройки Koala</figcaption>
+		  </figure>
+	    </section>
+        <section>
+	      <h2 id="variables">Переменные</h2>
+	      <p>Переменные SASS предлагают способ хранения информации, которую можно 
+	      повторно использовать позже. SASS позволяет хранить информацию следующих 
+	      типов:</p>
+	      <ol>
+	        <li>Строка (string);</li>
+	        <li>Число (number);</li>
+	        <li>Цвет (color);</li>
+	        <li>Логическое значение (boolean);</li>
+	        <li>Список (list);</li>
+            <li>Null.</li>
+	      </ol>
+	      <p>В Sass используется символ <code>$</code>, за которым следует имя, 
+		  необходимое для объявления переменной. Например:</p>
+	      <div class="code-section">
+	        <code>$variablename: value;</code>
+	      </div>
+	      <p>Переменные SASS доступны только на том уровне вложенности, где они 
+	      определены.</p>
+	      <p>Поведение по умолчанию для области видимости переменной можно 
+	      переопределить с помощью метки <code>!global</code>. Метка <code>!global
+		  </code>указывает, что переменная является глобальной, т.е. она доступна 
+		  на всех уровнях.</p>
+        </section>
+        <section>
+	      <h2 id="nesting">Вложенность</h2>
+	      <p>SASS позволяет вкладывать селекторы CSS таким же образом, как HTML.
+	      За счет этого код выглядит чище и становится более читабельным, по 
+	      сравнению со стандартным CSS.</p>
+	      <p>Многие свойства CSS имеют один и тот же префикc (к примеру, font-family, 
+	      font-size и font-weight). С использованием SASS становится возможным 
+	      записать эти свойства как вложенные. Транспилятор SASS преобразует их в 
+	      обычный CSS.</p>
+        </section>
+        <section>
+	      <h2 id="import">Фрагментирование и импорт</h2>
+	      <p>При использовании SASS существует возможность создавать фрагменты 
+	      SASS-файла,	которые будут содержать в себе небольшие части CSS, которые 
+	      впоследствии можно будет использовать в других SASS-файлах. Это позволяет 
+	      сделать CSS модульным, что, в свою очередь, облегчает его обслуживание. 
+	      Фрагмент - это Sass-файл, имя которого начинается с нижнего подчеркивания, 
+	      например, _partial.scss. Нижнее	подчеркивание в имени SASS-файла 
+	      подразумевает, что это только фрагмент и он не должен транспилироваться в 
+	      CSS. Фрагменты SASS подключаются при помощи директивы <code>@import</code>:</p>
+	      <div class="code-section">
+	        <code>@import filename;</code>
+	      </div>
+	      <p>Указывать расширение файла не требуется, т.к. SASS автоматически 
+	      предполагает, что подразумевается файл с расширением .sass или .scss. 
+	      Также присутствует возможность импортировать файлы CSS. При этом любые 
+	      переменные или миксины,	определенные в импортированном файле, могут затем 
+	      использоваться в основном файле.</p>
+        </section>
+        <section>
+	      <h2 id="mixin">Миксины</h2>
+	      <p>Директива <code>@mixin</code> используется при объявлении миксина и 
+		  позволяет создавать код CSS, который будет повторно использоваться на 
+		  веб-сайте:</p>
+	      <div class="code-section">
+	        <code>
+			  <pre>@mixin name {<br>  property: value;<br>  property: value;<br>  ...<br> }</pre>
+	        </code>
+	      </div>
+	      <p>Директива <code>@include</code> необходима для использования (включать) 
+		  миксин.</p>
+	      <p>Миксин также может включать в себя другие миксины и принимать аргументы.
+	      Помимо этого, возможно определить значения по умолчанию для переменных 
+		  миксина.</p>
+        </section>
+        <section>
+	      <h2 id="inheritance">Наследование</h2>
+	      <p>Директива <code>@extend</code> позволяет передавать набор свойств CSS 
+		  от одного селектора к другому.</p>
+		  <div class="code-section">
+	        <code>
+			  <pre>.selector2 {<br>  @extend .selector1;<br>  ...<br> }</pre>
+	        </code>
+	      </div>
+        </section>
+        <section>
+	      <h2 id="functions">Функции</h2>
+	      <p>В SASS, как и в стандартном CSS, доступны операции сложения, вычитания,
+	      умножения и деления, однако необязательно использовать функцию <code>calc()</code>. 
+		  Также в SASS работают операторы сравнения (==, !=, &lt;, &gt; и т.д.) и 
+		  логические операторы (and, or, not).</p>
+	      <p>Для проверки условий присутствуют директивы <code>@if</code> и <code>@else</code>.
+		  Директива <code>@for</code> используется для повторения выражений несколько раз 
+		  подряд.</p>
+	      <table>
+	        <caption id="tblcap">Таблица. Строковые и числовые функции</caption>
+	        <tr>
+	          <th>Функция</th>
+	          <th>Описание</th>
+	        </tr>
+	        <tr>
+	          <td colspan="2">String</td>
+	        </tr>
+	        <tr>
+	          <td>quote(string)</td>
+	          <td>Добавляет кавычки к строке и возвращает результат</td>
+	        </tr>
+	        <tr>
+	          <td>str-index(string, substring)</td>
+	          <td>Возвращает индекс первого вхождения подстроки в строку</td>
+	        </tr>
+	        <tr>
+	          <td>str-insert(string, insert, index)</td>
+	          <td>Возвращает строку со вставленной в указанную позицию подстрокой</td>
+	        </tr>
+	        <tr>
+	          <td>str-length(string)</td>
+	          <td>Возвращает длину строки (в символах)</td>
+	        </tr>
+	        <tr>
+	          <td>str-slice(string, start, end)</td>
+	          <td>Извлекает символы из строки и возвращает фрагмент</td>
+	        </tr>
+	        <tr>
+	          <td>to-lower-case(string)</td>
+	          <td>Возвращает копию строки, преобразованную в нижний регистр</td>
+	        </tr>
+	        <tr>
+	          <td>to-upper-case(string)</td>
+	          <td>Возвращает копию строки, преобразованную в верхний регистр</td>
+	        </tr>
+	        <tr>
+	          <td>unique-id()</td>
+	          <td>Возвращает уникальную случайно сгенерированную строку без кавычек</td>
+	        </tr>
+	        <tr>
+	          <td>unquote(string)</td>
+	          <td>Удаляет кавычки вокруг строки (если есть) и возвращает результат</td>
+	        </tr>
+	        <tr>
+	          <td colspan="2">Number</td>
+	        </tr>
+	        <tr>
+	          <td>abs(number)</td>
+	          <td>Возвращает абсолютное значение числа</td>
+	        </tr>
+	        <tr>
+	          <td>ceil(number)</td>
+	          <td>Округляет число в большую сторону до ближайшего целого</td>
+	        </tr>
+	        <tr>
+	          <td>comparable(num1, num2)</td>
+	          <td>Возвращает, сравнимы ли числа num1 и num2</td>
+	        </tr>
+	        <tr>
+	          <td>floor(number)</td>
+	          <td>Округляет число в меньшую сторону до ближайшего целого</td>
+	        </tr>
+	        <tr>
+	          <td>max(number...)</td>
+	          <td>Возвращает наибольшее значение из нескольких чисел</td>
+	        </tr>
+	        <tr>
+	          <td>min(number...)</td>
+	          <td>Возвращает наименьшее значение из нескольких чисел</td>
+	        </tr>
+	        <tr>
+	          <td>percentage(number)</td>
+	          <td>Преобразует число в процент</td>
+	        </tr>
+	        <tr>
+	          <td>random()</td>
+	          <td>Возвращает случайное число от 0 до 1</td>
+	        </tr>
+	        <tr>
+	          <td>random(number)</td>
+	          <td>Возвращает случайное целое число от 1 до заданного числа</td>
+	        </tr>
+	        <tr>
+	          <td>round(number)</td>
+	          <td>Округляет число до ближайшего целого</td>
+	        </tr>
+	      </table>
+	    </section>
+      </article>
+      <aside>
+        <h2>Оглавление:</h2>
+        <div id="contents">
+          <ul>
+ 	        <li><a href="#introduction">Введение</a></li>
+            <li><a href="#variables">Переменные</a></li>
+            <li><a href="#nesting">Вложенность</a></li>
+            <li><a href="#import">Импорт</a></li>
+            <li><a href="#mixin">Миксины</a></li>
+            <li><a href="#inheritance">Наследование</a></li>
+            <li><a href="#functions">Функции</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+    <div>
+	  <button id="beginBtn" onclick="toBegining()">&uarr;</button>
+	</div>
+	<footer>
+      <p>Подвал</p>
+	</footer>
+  </body>
+</html>
