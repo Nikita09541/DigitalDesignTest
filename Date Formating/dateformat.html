@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Информация о дате</title>
+</head>
+<body>
+  <div>
+    <p id="data" style="display: none"></p>
+  </div>
+  <div>
+    <button onclick="getDateInfo('01.03.2022')">Вывод даты</button>
+  </div>
+  <script>
+    "use strict";
+    function getDateInfo(dateString) {
+      try {
+        //проверка на пустоту строки с датой
+		if (dateString.trim() === "") throw "Введите дату";
+        //преобразование строки в массив компонент даты
+		const datearr = dateString.split(".");
+        //проверка на некорректно введеный месяц
+		if (datearr[1] > 12) throw "Некорректный месяц";
+        //создание объекта даты
+		const date = new Date(datearr[2], datearr[1] - 1, datearr[0]);
+        //определение дня недели
+        let dayOfWeek = date.toLocaleDateString('ru-RU', {weekday: 'long'}).capitalizeFirstLetter();
+        //определение недели месяца
+        let week = Math.ceil(date.getDate() / 7);
+        //определение названия месяца в родительном падеже
+        let month = date.monthToGenitiveCase().capitalizeFirstLetter();
+        //отображение даты в соответствии с форматом
+	    let formatDate = dayOfWeek + ", " + week + " неделя " + month + " " + date.getFullYear() + " года";
+        //вывод даты в элемент p
+		const dataElem = document.getElementById("data");
+		dataElem.style.display = "inline";
+        dataElem.innerHTML = formatDate;
+	  }
+	  catch(err) {
+          //вывод сообщения об ошибке
+		  window.alert(err);
+	  }
+    }
+    //функция преобразовния первой буквы в верхний регистр, добавленная в прототип String 
+    String.prototype.capitalizeFirstLetter = function() {
+      return this.charAt(0).toUpperCase() + this.slice(1);
+    }
+    //функция преобразования месяца в родительный падеж, добавленная в прототип Date
+    Date.prototype.monthToGenitiveCase = function() {
+      //определение месяца
+      let month = this.toLocaleDateString('ru-RU', {month: 'long'});
+      switch(month) {
+        case("март"):
+        case("август"):
+          month = month + "а";
+          break;
+        default:
+         month = month.replace(month[month.length-1], "я");
+      }
+      return month;
+    }
+  </script>
+</body>
+</html>
